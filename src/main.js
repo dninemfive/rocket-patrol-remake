@@ -1,7 +1,7 @@
-console.log("memelord here");
-/*let config = {
+console.log("Loaded.");
+let config = {
     type: Phaser.CANVAS,
     width: 640,
     height: 480
-};*/
-//let game = Phaser.Game(config);
+};
+let game = new Phaser.Game(config);
