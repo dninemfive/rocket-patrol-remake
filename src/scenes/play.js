@@ -8,6 +8,9 @@ class Play extends Phaser.Scene {
         this.load.image("rocket", "assets/rocket.png");
         this.load.image("spaceship", "assets/spaceship.png");
         this.load.spritesheet("explosion", "assets/explosion.png", { frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9 });
+        this.load.audio('sfx_select', './assets/blip_select12.wav');
+        this.load.audio('sfx_explosion', './assets/explosion38.wav');
+        this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
     }
 
     create(){
@@ -62,9 +65,9 @@ class Play extends Phaser.Scene {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
             this.scene.restart();
         }
-        this.starfield.tilePositionX -= 4;
-        this.rocket.update();
+        this.starfield.tilePositionX -= 4;        
         if(!this.gameOver){
+            this.rocket.update();
             for (let ship of this.ships){
                 ship.update();
                 if (this.checkCollision(this.rocket, ship)){
@@ -100,5 +103,7 @@ class Play extends Phaser.Scene {
         });       
         this.score += ship.points;
         this.scoreLabel.text = this.score;
+        this.sound.play('sfx_explosion');
+
       }
 }
