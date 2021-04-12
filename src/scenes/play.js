@@ -8,9 +8,6 @@ class Play extends Phaser.Scene {
         this.load.image("rocket", "assets/rocket.png");
         this.load.image("spaceship", "assets/spaceship.png");
         this.load.spritesheet("explosion", "assets/explosion.png", { frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9 });
-        this.load.audio('sfx_select', './assets/blip_select12.wav');
-        this.load.audio('sfx_explosion', './assets/explosion38.wav');
-        this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
     }
 
     create(){
@@ -40,23 +37,15 @@ class Play extends Phaser.Scene {
         this.anims.create({ key: "explode", frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 9, first: 0}), frameRate: 30 });
 
         this.score = 0;
-        let scoreConfig = {
-            fontFamily: "Courier",
-            fontSize: "28px",
-            backgroundColor: "#F3B141",
-            color: "#843605",
-            align: "right",
-            padding: { top: 5, bottom: 5 },
-            fixedWidth: 100
-        }
-        this.scoreLabel = this.add.text(borderUISize + borderPadding, borderUISize + (borderPadding * 2), this.score, scoreConfig);
+        textConfig.fixedWidth = 100;
+        this.scoreLabel = this.add.text(borderUISize + borderPadding, borderUISize + (borderPadding * 2), this.score, textConfig);
 
         // timer
         this.gameOver = false;
-        scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(5 * 1000, () => {
-            this.add.text(game.config.width / 2, game.config.height / 2, "GAME OVER", scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width / 2, game.config.height / 2 + 64, "Press (R) to Restart", scoreConfig).setOrigin(0.5);
+        textConfig.fixedWidth = 0;
+        this.clock = this.time.delayedCall(game.settings.gameTimer * 1000, () => {
+            this.add.text(game.config.width / 2, game.config.height / 2, "GAME OVER", textConfig).setOrigin(0.5);
+            this.add.text(game.config.width / 2, game.config.height / 2 + 64, "Press (R) to Restart", textConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
     }
