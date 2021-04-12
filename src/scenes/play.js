@@ -35,16 +35,42 @@ class Play extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         this.anims.create({ key: "explode", frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 9, first: 0}), frameRate: 30 });
+
+        this.score = 0;
+        let scoreConfig = {
+            fontFamily: "Courier",
+            fontSize: "28px",
+            backgroundColor: "#F3B141",
+            color: "#843605",
+            align: "right",
+            padding: { top: 5, bottom: 5 },
+            fixedWidth: 100
+        }
+        this.scoreLabel = this.add.text(borderUISize + borderPadding, borderUISize + (borderPadding * 2), this.score, scoreConfig);
+
+        // timer
+        this.gameOver = false;
+        scoreConfig.fixedWidth = 0;
+        this.clock = this.time.delayedCall(5 * 1000, () => {
+            this.add.text(game.config.width / 2, game.config.height / 2, "GAME OVER", scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width / 2, game.config.height / 2 + 64, "Press (R) to Restart", scoreConfig).setOrigin(0.5);
+            this.gameOver = true;
+        }, null, this);
     }
 
     update(){
+        if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
+            this.scene.restart();
+        }
         this.starfield.tilePositionX -= 4;
         this.rocket.update();
-        for (let ship of this.ships){
-            ship.update();
-            if (this.checkCollision(this.rocket, ship)){
-                this.rocket.reset();
-                this.shipExplode(ship);
+        if(!this.gameOver){
+            for (let ship of this.ships){
+                ship.update();
+                if (this.checkCollision(this.rocket, ship)){
+                    this.rocket.reset();
+                    this.shipExplode(ship);                
+                }
             }
         }
     }
@@ -72,5 +98,7 @@ class Play extends Phaser.Scene {
           ship.alpha = 1;                       // make ship visible again
           boom.destroy();                       // remove explosion sprite
         });       
+        this.score += ship.points;
+        this.scoreLabel.text = this.score;
       }
 }
