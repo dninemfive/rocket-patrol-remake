@@ -45,17 +45,19 @@ class Play extends Phaser.Scene {
         textConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer * 1000, () => {
             this.add.text(game.config.width / 2, game.config.height / 2, "GAME OVER", textConfig).setOrigin(0.5);
-            this.add.text(game.config.width / 2, game.config.height / 2 + 64, "Press (R) to Restart", textConfig).setOrigin(0.5);
+            this.add.text(game.config.width / 2, game.config.height / 2 + 64, "Press (R) to Restart or ← for Menu", textConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
     }
 
     update(){
-        if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
-            this.scene.restart();
-        }
-        this.starfield.tilePositionX -= 4;        
-        if(!this.gameOver){
+        if(this.gameOver){
+            if(Phaser.Input.Keyboard.JustDown(keyR)){
+                this.scene.restart();
+            } else if(Phaser.Input.Keyboard.JustDown(keyLEFT)){
+                this.scene.start("menu");                
+            }
+        } else {
             this.rocket.update();
             for (let ship of this.ships){
                 ship.update();
@@ -65,6 +67,7 @@ class Play extends Phaser.Scene {
                 }
             }
         }
+        this.starfield.tilePositionX -= 4;
     }
 
     checkCollision(rocket, ship) {

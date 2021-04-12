@@ -22,3 +22,12 @@ let textConfig = {
     padding: { top: 5, bottom: 5 },
     fixedWidth: 0
 }
+let menuConfig = {
+    fontFamily: "Courier",
+    fontSize: "28px",
+    backgroundColor: "#00FF00",
+    color: "#000000",
+    align: "right",
+    padding: { top: 5, bottom: 5 },
+    fixedWidth: 0
+}
