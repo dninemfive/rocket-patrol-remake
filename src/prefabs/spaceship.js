@@ -9,8 +9,7 @@ class Spaceship extends Phaser.GameObjects.Sprite {
     update(){
         this.x -= this.moveSpeed;
         if(this.x <= -this.width){
-            // not using reset() because I'm gonna put the explosion anim in there
-            this.x = game.config.width;
+            this.reset();
         }
     }
 
