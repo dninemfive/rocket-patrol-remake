@@ -36,11 +36,9 @@ class Play extends Phaser.Scene {
 
         this.anims.create({ key: "explode", frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 9, first: 0}), frameRate: 30 });
 
+        this.score = 0;
         textConfig.fixedWidth = 100;
-        this.score = 0;        
         this.scoreLabel = this.add.text(borderUISize + borderPadding, borderUISize + (borderPadding * 2), this.score, textConfig);
-        this.timeElapsed = 0;
-        this.timerLabel = this.add.text(game.config.width - (borderUISize + (borderPadding * 2)), borderUISize + (borderPadding * 2), this.timeElapsed, textConfig).setOrigin(1, 0);
 
         // timer
         this.gameOver = false;
